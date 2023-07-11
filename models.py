@@ -22,3 +22,8 @@ class User(db.Model):
     last_name = db.Column(db.String(25),
                             nullable=False)
     image_url = db.Column(db.String(300))
+
+    @classmethod
+    def get_by_last_name(cls, last_name):
+        '''Get all users with a particular last name'''
+        return cls.query.filter_by(last_name=last_name).all()
