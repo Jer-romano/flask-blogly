@@ -1,0 +1,38 @@
+h1 {
+    margin: 20px;
+}
+
+#form-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input {
+    width: 250px;
+    margin: 10px;
+}
+
+label {
+    margin-left: 20px;
+}
+
+button {
+    margin: 10px;
+}
+
+.button-container form,
+.button-container button {
+    display: inline;
+    margin: 10px;
+}
+ 
+img {
+    margin-left: 20px;
+}
+
+
+/* #user-image-div {
+    width: 20%;
+    height: auto;
+} */
