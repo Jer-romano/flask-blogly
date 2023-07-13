@@ -5,19 +5,35 @@
 {%block content%}
 <div id="user-detail">
     <img id="user-image" width="200px" height="auto" src="{{ user.image_url }}" alt="The user's profile image">
-    <h1> {{ user.first_name }} {{ user.last_name }}</h1>
-
-    <div class="button-container">
-        <form action="/users/{{ user.id }}/edit">
-            <button class="btn btn-primary"> Edit </button>
-        </form>
-        <form action="/users/{{ user.id }}/delete" method="POST">
-            <button class="btn btn-danger"> Delete </button>
-        </form>
+    <div id="name-container">
+        <div class="button-container">
+            <h1> {{ user.first_name }} {{ user.last_name }}</h1>
+            <form action="/users/{{ user.id }}/edit">
+                <button class="btn btn-primary"> Edit </button>
+            </form>
+            <form action="/users/{{ user.id }}/delete" method="POST">
+                <button class="btn btn-danger"> Delete </button>
+            </form>
+        </div>
     </div>
+    <h3>Posts</h3>
+    <ul>
+        {% if user.posts %}
+            {% for post in user.posts %}
+                <li><a href="/posts/{{ post.id }}">{{ post.title }} </a></li>
+            {%endfor%}
+        {% else %}
+            <li>No posts yet!</li>
+        {% endif %}
+    </ul>
+ 
 </div>
+<form action="/users/{{ user.id }}/posts/new">
+    <button class="btn btn-success">Create New Post</button>
+</form>
 <form action="/users">
     <button class="btn btn-secondary">Back</button>
 </form>
+
 
 {%endblock%}

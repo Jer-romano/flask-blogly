@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%block title%} 
+<h1>{{ post.title }}</h1>
+{%endblock%}
+{%block content%}
+<h3 id="post-content">{{ post.content }}</h3>
+<h4><i>By {{ post.author.get_full_name() }}</i></h4>
+
+
+<div class="button-container">
+    <form action="/users/{{ post.author_id }}">
+        <button class="btn btn-secondary">Back</button>
+    </form>
+    <form action="/posts/{{ post.id }}/edit">
+        <button class="btn btn-primary"> Edit </button>
+    </form>
+    <form action="/posts/{{ post.id }}/delete" method="POST">
+        <button class="btn btn-danger"> Delete </button>
+    </form>
+</div>
+
+
+
+{%endblock%}

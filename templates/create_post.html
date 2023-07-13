@@ -1,0 +1,28 @@
+{%extends 'base.html'%}
+
+{%block title%}
+<h1>Add Post for {{ user.get_full_name() }}</h1> 
+{%endblock%}
+
+{%block content%}
+<form action="/users/{{ user.id }}/posts/new" method="post">
+    <div>
+        <label for="title">Title</label>
+        <input type="text" name="title">
+    </div>
+    <div>
+        <label for="content">Content</label>
+        <textarea name="content" cols="30" rows="5"></textarea>
+    </div>
+
+    <div class="button-container">
+        <button type="button" onclick="backToUser()"  class="btn btn-outline-primary"> Back </button>
+        <button type="submit" class="btn btn-success"> Add </button>
+    </div>
+    <script>
+        function backToUser() {
+            window.location.href = '/users/{{ user.id }}'
+        }
+    </script>
+</form>
+{%endblock%}

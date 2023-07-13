@@ -1,7 +1,7 @@
 """Blogly application."""
 from flask import Flask, render_template, redirect, request
 from sqlalchemy import text 
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -69,6 +69,44 @@ def delete_user(user_id):
     db.session.commit()
     return redirect('/users')
 
+@app.route('/users/<int:user_id>/posts/new')
+def show_create_post_page(user_id):
+    user = User.query.get(user_id) #Do I need to keep making this query?
+    return render_template('create_post.html', user=user)
 
 
+@app.route('/users/<int:user_id>/posts/new', methods=["POST"])
+def create_post(user_id):
+    title = request.form['title']
+    content = request.form['content']
+    new_post = Post(title=title, content=content, author_id=user_id)
 
+    db.session.add(new_post)
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
+
+@app.route('/posts/<int:post_id>')
+def show_post(post_id):
+    post = Post.query.get(post_id)
+    return render_template('post_detail.html', post=post)
+
+@app.route('/posts/<int:post_id>/edit', methods=["GET"])
+def show_edit_post_form(post_id):
+    post = Post.query.get(post_id)
+    return render_template('edit_post.html', post=post)
+
+@app.route('/posts/<int:post_id>/edit', methods=["POST"])
+def edit_post(post_id):
+    post = Post.query.get(post_id)
+    post.title = request.form['title']
+    post.content = request.form['content']
+    db.session.add(post)
+    db.session.commit()
+    return redirect(f'/posts/{post_id}')
+
+@app.route('/posts/<int:post_id>/delete', methods=["POST"])
+def delete_post(post_id):
+    post = Post.query.get(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(f'/users/{post.author_id}')
