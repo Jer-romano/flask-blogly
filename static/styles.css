@@ -1,9 +1,13 @@
 body {
     margin-left: 20px;
     margin-right: 20px;
+    margin-top: 10px;
 }
 
-
+#blogly-title {
+    text-align: center;
+    color:darkolivegreen;
+}
 h1, h3 {
     margin-left: 20px;
     margin-bottom: 30px;
@@ -29,6 +33,7 @@ input {
 
 label {
     margin-left: 20px;
+    vertical-align:top
 }
 
 button {
@@ -49,11 +54,3 @@ img {
     display: inline;
     margin-top: 15px;
 }
-
-/* #name-container {
-    display: inline;
-} */
-/* #user-image-div {
-    width: 20%;
-    height: auto;
-} */
