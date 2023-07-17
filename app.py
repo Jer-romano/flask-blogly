@@ -16,7 +16,6 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
-
 @app.route('/')
 def show_homepage():
     return redirect('/users')
@@ -145,7 +144,6 @@ def delete_tag(tag_id):
     db.session.commit()
     return redirect('/users')
 
-
 @app.route('/tags/<int:tag_id>/edit', methods=["GET"])
 def show_edit_tag_form(tag_id):
     tag = Tag.query.get(tag_id)
@@ -158,3 +156,24 @@ def edit_tag(tag_id):
     db.session.add(tag)
     db.session.commit()
     return redirect('/users')
+
+
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import sessionmaker
+# from sqlalchemy import update
+# from your_module import YourModel
+
+# # Create an engine and session
+# engine = create_engine('your_database_url')
+# Session = sessionmaker(bind=engine)
+# session = Session()
+
+# # Define the values you want to update
+# new_value = "New Value"
+
+# # Perform the update
+# stmt = update(YourModel).where(YourModel.id == 1).values(attribute=new_value)
+# session.execute(stmt)
+
+# # Commit the transaction
+# session.commit()
