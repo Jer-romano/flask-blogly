@@ -7,15 +7,26 @@
 {%block content%}
 <form action="/users/{{ user.id }}/posts/new" method="post">
     <div>
-        <label for="title">Title:</label>
+        <label for="title" class="form-label">Title:</label>
         <input type="text" name="title" id="title">
     </div>
     <div>
-        <label for="content">Content:</label>
+        <label for="content" class="form-label">Content:</label>
         <textarea name="content" id="content" cols="30" rows="5"></textarea>
     </div>
-
-    <div class="button-container">
+    <div>
+        {%if tags%}
+        {%for tag in tags%}
+        <div>
+            <input type="checkbox" id="{{ tag.name }}" name="tag_box" value="{{ tag.name }}">
+            <label for="{{ tag.name }}">{{ tag.name }}</label>
+        </div>
+        {%endfor%}
+        {% else %}
+        <li>No tags!</li>
+    {% endif %}
+    </div>
+    <div class="add-back-container">
         <button type="button" onclick="backToUser()"  class="btn btn-outline-primary"> Back </button>
         <button type="submit" class="btn btn-success"> Add </button>
     </div>

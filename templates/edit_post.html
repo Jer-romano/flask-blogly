@@ -7,11 +7,11 @@
 {%block content%}
 <form action="/posts/{{ post.id }}/edit" method="post" id="edit-form">
     <div>
-        <label for="title">Title</label>
+        <label for="title" class="form-label">Title</label>
         <input type="text" name="title" value="{{ post.title }}">
     </div>
     <div>
-        <label for="content">Content</label>
+        <label for="content" class="form-label">Content</label>
         <textarea name="content" cols="30" rows="5">{{ post.content }}</textarea>
     </div>
 

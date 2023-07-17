@@ -6,19 +6,31 @@ body {
 
 #blogly-title {
     text-align: center;
-    color:darkolivegreen;
 }
-h1, h3 {
-    margin-left: 20px;
+
+h1 a {
+    text-decoration: none;
+    color:rgb(104, 142, 39);
+}
+
+h1 a:hover {
+    color: darkolivegreen;
+}
+
+h1, h2, h3, h4 {
     margin-bottom: 30px;
 }
-#post-content {
+
+.post-container {
     margin-left: 30px;
-    border-bottom: 2px solid blue;
-    border-top: 2px solid blue;
 }
-h4 {
-    margin-left: 30px;
+
+#post-title {
+    border-bottom: 2px solid blue;
+}
+
+#post-content {
+    margin-left: 20px;
 }
 #form-div {
     display: flex;
@@ -26,14 +38,24 @@ h4 {
     justify-content: center;
 }
 
-input {
+input[type="text"], textarea {
     width: 250px;
     margin: 10px;
 }
 
-label {
+input[type="checkbox"] {
+    margin-left: 20px;
+}
+form {
+    width: 400px;
+}
+.form-label {
     margin-left: 20px;
     vertical-align:top
+}
+
+label {
+    margin-left: 5px;
 }
 
 button {
@@ -45,12 +67,29 @@ button {
     display: inline;
     margin: 5px;
 }
+
+ div.button-container {
+    margin-top: 20px;
+}
+
+.add-back-container {
+    display: flex;
+    justify-content: right;
+}
  
 img {
     margin-left: 20px;
 }
 
-#name-container h1 {
+.tag {
+    color: white;
+    background-color: rgb(55, 135, 238);
+    padding: 4px 6px 4px 6px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#name-container h2 {
     display: inline;
     margin-top: 15px;
 }

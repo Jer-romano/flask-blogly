@@ -7,7 +7,7 @@
     <img id="user-image" width="200px" height="auto" src="{{ user.image_url }}" alt="The user's profile image">
     <div id="name-container">
         <div class="button-container">
-            <h1> {{ user.first_name }} {{ user.last_name }}</h1>
+            <h2> {{ user.first_name }} {{ user.last_name }}</h2>
             <form action="/users/{{ user.id }}/edit">
                 <button class="btn btn-primary"> Edit </button>
             </form>

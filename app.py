@@ -1,7 +1,7 @@
 """Blogly application."""
 from flask import Flask, render_template, redirect, request
 from sqlalchemy import text 
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -22,9 +22,10 @@ def show_homepage():
     return redirect('/users')
 
 @app.route('/users')
-def show_users():
+def show_users_and_tags():
     users = User.query.all()
-    return render_template('base.html', users=users)
+    tags = Tag.query.all()
+    return render_template('base.html', users=users, tags=tags)
 
 @app.route('/users/new', methods=['GET'])
 def show_user_form():
@@ -71,17 +72,26 @@ def delete_user(user_id):
 
 @app.route('/users/<int:user_id>/posts/new')
 def show_create_post_page(user_id):
-    user = User.query.get(user_id) #Do I need to keep making this query?
-    return render_template('create_post.html', user=user)
+    user = User.query.get(user_id) 
+    tags = Tag.query.all()
+    return render_template('create_post.html', user=user, tags=tags)
 
 
 @app.route('/users/<int:user_id>/posts/new', methods=["POST"])
 def create_post(user_id):
     title = request.form['title']
     content = request.form['content']
-    new_post = Post(title=title, content=content, author_id=user_id)
-
-    db.session.add(new_post)
+    post = Post(title=title, content=content, author_id=user_id)
+    db.session.add(post)
+    db.session.commit()
+    tags = request.form.getlist("tag_box")
+    #need to get the ID of the post I just created
+    new_post = Post.query.filter(Post.title == title, Post.content == content).one()
+    for tag in tags:
+        found_tag = Tag.query.filter_by(name=tag).first()
+        pt = PostTag(post_id=new_post.id, 
+        tag_id=found_tag.id)
+        db.session.add(pt)
     db.session.commit()
     return redirect(f'/users/{user_id}')
 
@@ -110,3 +120,41 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     return redirect(f'/users/{post.author_id}')
+
+@app.route("/tags/new")
+def show_tag_form():
+    return render_template('create_tag.html')
+
+@app.route("/tags/new", methods=["POST"])
+def process_tag_form():
+    tag_name = request.form["tag"]
+    tag = Tag(name=tag_name)
+    db.session.add(tag)
+    db.session.commit()
+    return redirect("/users")
+
+@app.route("/tags/<int:tag_id>")
+def show_tag_detail(tag_id):
+    tag = Tag.query.get(tag_id)
+    return render_template("tag_detail.html", tag=tag)
+
+@app.route('/tags/<int:tag_id>/delete', methods=["POST"])
+def delete_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect('/users')
+
+
+@app.route('/tags/<int:tag_id>/edit', methods=["GET"])
+def show_edit_tag_form(tag_id):
+    tag = Tag.query.get(tag_id)
+    return render_template('edit_tag.html', tag=tag)
+
+@app.route('/tags/<int:tag_id>/edit', methods=["POST"])
+def edit_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    tag.name = request.form['tag']
+    db.session.add(tag)
+    db.session.commit()
+    return redirect('/users')

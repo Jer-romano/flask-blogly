@@ -48,10 +48,30 @@ class Post(db.Model):
     content = db.Column(db.Text,
                         nullable=False)
     created_at = db.Column(db.DateTime,
-                            default=getCurrentDateTime())
+                            default=getCurrentDateTime)
     author_id = db.Column(db.Integer,
                           db.ForeignKey('users.id'))
     author = db.relationship('User', backref="posts")
 
+class Tag(db.Model):
+    __tablename__ = 'tags'
 
+    id = db.Column(db.Integer,
+                    primary_key=True,
+                    autoincrement=True)
+    name = db.Column(db.String(50),
+                        nullable=False,
+                        unique=True)
+    posts = db.relationship('Post', secondary='posttags', backref='tags')
+
+
+class PostTag(db.Model):
+    __tablename__ = 'posttags'
+
+    post_id = db.Column(db.Integer,
+                        db.ForeignKey('posts.id'),
+                        primary_key=True)
+    tag_id = db.Column(db.Integer,
+                        db.ForeignKey('tags.id'),
+                        primary_key=True)
  

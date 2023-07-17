@@ -1,11 +1,24 @@
 {%extends 'base.html'%}
 {%block title%} 
-<h1>{{ post.title }}</h1>
 {%endblock%}
 {%block content%}
-<h3 id="post-content">{{ post.content }}</h3>
-<h4><i>By {{ post.author.get_full_name() }} on {{ post.created_at }} </i></h4>
-
+<div class="post-container">
+    <h1 id="post-title">{{ post.title }}</h1>
+    <h3 id="post-content">{{ post.content }}</h3>
+    {%if post.author %}
+        <h4><i>By {{ post.author.get_full_name() }} on {{ post.created_at }} </i></h4>
+    {% else %}
+        <h4><i>By (deleted_user) on {{ post.created_at }} </i></h4>
+    {%endif%}
+    <span><b>Tags: </b></span>
+        {%if post.tags %}
+        {%for tag in post.tags%}
+            <span class="tag">{{ tag.name }}</span>
+        {%endfor%}
+        {% else %}
+        <span>No tags</span>
+    {% endif %}
+</div>
 
 <div class="button-container">
     <form action="/users/{{ post.author_id }}">

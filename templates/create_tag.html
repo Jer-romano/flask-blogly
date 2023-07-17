@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+{%block title%} 
+<h1>Create a tag</h1>
+{%endblock%}
+{% block content%} 
+<form action="/tags/new" method="POST">
+    <label for="tag">Name</label>
+    <input type="text" name="tag" id="tag"  placeholder="Enter a name for the tag">
+    <button type="button" onclick="backToUser()"  class="btn btn-outline-primary"> Back </button>
+    <button type="submit" class="btn btn-success">Add</button>
+</form>
+<script>
+    function backToUser() {
+        window.location.href = '/users'
+    }
+</script>
+{%endblock%}
