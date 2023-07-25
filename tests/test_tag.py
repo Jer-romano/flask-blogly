@@ -13,14 +13,13 @@ db.create_all()
 
 class PostTagModelTests(TestCase):
 
-
     @classmethod
     def setUpClass(cls):
         '''Class method that runs once before the suite of tests. This makes sure we have a user
         that we can link the posts to.'''
         user = User(first_name="John", last_name="Smith")
-        post = Post(title="Example", content="This is a post")
-        db.session.add_all([user, post])
+        #post = Post(title="Example", content="This is a post")
+        db.session.add(user)
         db.session.commit()
 
     @classmethod
@@ -61,3 +60,10 @@ class PostTagModelTests(TestCase):
          "tag_box": ["frog-life"]}
         with app.test_client() as client:
             client.post("/tags/new", data=tag)
+            client.post("/users/1/posts/new", data=post)
+            resp = client.get("/posts/1")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<span class="tag">frog-life</span>', html)
+            self.assertIn('<h1 id="post-title">The best day</h1>', html)
